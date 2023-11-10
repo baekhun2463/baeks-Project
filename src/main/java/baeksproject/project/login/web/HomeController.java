@@ -2,7 +2,7 @@ package baeksproject.project.login.web;
 
 
 import baeksproject.project.login.domain.member.Member;
-import baeksproject.project.login.domain.member.MemberRepository;
+import baeksproject.project.login.domain.member.MemberRepositoryV1;
 import baeksproject.project.login.web.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryV1 memberRepositoryV1;
     //private final SessionManager sessionManager;
 
 

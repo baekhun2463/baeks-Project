@@ -1,6 +1,6 @@
 package baeksproject.project.login.web.login;
 
-import baeksproject.project.login.domain.login.LoginService;
+import baeksproject.project.login.service.login.LoginService;
 import baeksproject.project.login.domain.member.Member;
 import baeksproject.project.login.web.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,12 +1,17 @@
 package baeksproject.project.login.domain.member;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter @Getter
-public class Member {
+import java.io.Serializable;
 
+@Setter @Getter
+@Entity
+public class Member implements Serializable {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
@@ -16,9 +21,14 @@ public class Member {
     @NotEmpty
     private String password;
 
-    Member(String email, String name, String password) {
+    public Member(String email, String name, String password) {
         this.email = email;
         this.name = name;
         this.password = password;
     }
+
+    public Member() {
+
+    }
+
 }

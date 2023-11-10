@@ -1,7 +1,7 @@
 package baeksproject.project.login.web.member;
 
 import baeksproject.project.login.domain.member.Member;
-import baeksproject.project.login.domain.member.MemberRepository;
+import baeksproject.project.login.domain.member.MemberRepositoryV1;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/members")
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryV1 memberRepositoryV1;
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") Member member) {
@@ -29,7 +29,7 @@ public class MemberController {
             return "members/addMemberForm";
         }
 
-        memberRepository.save(member);
+        memberRepositoryV1.save(member);
         return "redirect:/";
     }
 }

@@ -1,7 +1,7 @@
-package baeksproject.project.login.domain.login;
+package baeksproject.project.login.service.login;
 
+import baeksproject.project.login.repository.JpaMemberRepositoryV1;
 import baeksproject.project.login.domain.member.Member;
-import baeksproject.project.login.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService {
 
-    private final MemberRepository memberRepository;
+    private final JpaMemberRepositoryV1 jpaMemberRepositoryV1;
 
     public Member login(String loginId, String password) {
-        return memberRepository.findByLoginId(loginId)
+        return jpaMemberRepositoryV1.findByEmail(loginId)
                 .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
     }
