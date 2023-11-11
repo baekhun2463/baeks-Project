@@ -1,6 +1,7 @@
 package baeksproject.project.login.domain.member;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class Member implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @Email
     private String email;
     @NotEmpty
     private String name;

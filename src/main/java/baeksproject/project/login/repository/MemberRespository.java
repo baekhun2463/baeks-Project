@@ -1,21 +1,17 @@
 package baeksproject.project.login.repository;
 
 import baeksproject.project.login.domain.member.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public interface MemberRespository {
-    Member save(Member member);
-
-    //public Member findById(Long id);
-
-    public Optional<Member> findByEmail(String email);
-
-    public Optional<Member> findByPassword(String password);
-
-    //public Optional<Member> findByLoginId(String loginId);
-
-    //public void delete();
+    Member save(Member member); // 저장
+    Optional<Member> findById(Long id); //시스템 id로 찾기
+    Optional<Member> findByLoginId(String loginId); //로그인 id로 찾기
+    List<Member> findAll(); // 모든 멤버 list로 반환
+    void updateMember(Long id,Member updateParam);//멤버 수정
+    void editPassword(Long id, String password);
 }

@@ -11,8 +11,11 @@ public class LoginService {
 
     private final JpaMemberRepositoryV1 jpaMemberRepositoryV1;
 
-    public Member login(String loginId, String password) {
-        return jpaMemberRepositoryV1.findByEmail(loginId)
+    /**
+     * @return null 로그인 실패
+     */
+    public Member login(String email, String password) {
+        return jpaMemberRepositoryV1.findByLoginId(email)
                 .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
     }
