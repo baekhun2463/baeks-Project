@@ -14,7 +14,7 @@ import java.util.Optional;
 @Transactional
 public class JpaMemberRepositoryV1 implements MemberRespository {
 
-    private static EntityManager em = null;
+    private final EntityManager em;
 
     public JpaMemberRepositoryV1(EntityManager em) {
         this.em = em;
@@ -25,11 +25,13 @@ public class JpaMemberRepositoryV1 implements MemberRespository {
         em.persist(member);
         return member;
     }
+
     @Override
-    public static Optional<Member> findById(Long id) {
+    public Optional<Member> findById(Long id) {
         Member member = em.find(Member.class, id);
         return Optional.ofNullable(member);
     }
+
 
 
     @Override

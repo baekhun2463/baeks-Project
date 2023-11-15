@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface ItemRepository {
 
+    public Item saveItemWithMember(Long memberId, Item item);
+
     Item save(Item item);
 
     void update(Long itemId, ItemUpdateDto updateParam);

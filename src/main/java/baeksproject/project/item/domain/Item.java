@@ -12,6 +12,7 @@ public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "item_name", length = 10)
     private String itemName;
 
     private Integer price; //Integer은 int와 다르게 null값이 들어갈수있음.
@@ -19,7 +20,7 @@ public class Item {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "memberId")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     public Item(String itemName, Integer price, Integer quantity) {

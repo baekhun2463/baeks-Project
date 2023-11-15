@@ -1,7 +1,9 @@
 package baeksproject.project.item.repository;
 
 import baeksproject.project.item.domain.Item;
+import baeksproject.project.login.domain.member.Member;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,7 @@ import java.util.Optional;
 @Repository
 @Transactional
 public class JpaItemRepositoryV1 implements ItemRepository{
-
+    @PersistenceContext
     private final EntityManager em;
 
     public JpaItemRepositoryV1(EntityManager em) {
@@ -24,6 +26,21 @@ public class JpaItemRepositoryV1 implements ItemRepository{
 
     @Override
     public Item save(Item item) {
+        if (item.getId() == null) {
+            em.persist(item);
+        } else {
+            em.merge(item);
+        }
+        return item;
+    }
+
+    @Override
+    public Item saveItemWithMember(Long memberId, Item item) {
+        Member member = em.find(Member.class, memberId);
+        if (member == null) {
+            throw new IllegalStateException("Member not found");
+        }
+        item.setMember(member);
         em.persist(item);
         return item;
     }

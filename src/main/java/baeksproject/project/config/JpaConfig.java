@@ -34,7 +34,7 @@ public class JpaConfig {
 
     @Bean
     public ItemService itemService() {
-        return new ItemServiceV1(itemRepository());
+        return new ItemServiceV1(itemRepository(), memberRespository());
     }
     @Bean
     public ItemRepository itemRepository() {

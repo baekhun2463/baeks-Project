@@ -16,14 +16,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ItemServiceV1 implements ItemService{
 
     private final ItemRepository itemRepository;
+    private final MemberRespository memberRespository;
 
 
     public Item saveItemWithMember(Long memberId, Item item) {
-        Member member = MemberRespository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member member = memberRespository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
         item.setMember(member);
         return itemRepository.save(item);
     }
