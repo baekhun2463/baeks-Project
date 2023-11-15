@@ -30,6 +30,6 @@ public class MemberController {
         }
 
         jpaMemberRepositoryV1.save(member);
-        return "redirect:/";
+        return "redirect:/login";
     }
 }

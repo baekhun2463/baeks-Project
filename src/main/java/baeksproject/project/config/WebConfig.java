@@ -1,4 +1,4 @@
-package baeksproject.project.login.config;
+package baeksproject.project.config;
 
 import baeksproject.project.login.web.argumentresolver.LoginMemberArgumentResolver;
 import baeksproject.project.login.web.interceptor.LogInterceptor;

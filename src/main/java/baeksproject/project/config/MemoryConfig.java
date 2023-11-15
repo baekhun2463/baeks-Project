@@ -1,4 +1,4 @@
-package baeksproject.project.item.config;
+package baeksproject.project.config;
 
 import baeksproject.project.item.repository.ItemRepository;
 import baeksproject.project.item.repository.memory.MemoryItemRepository;
@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MemoryConfig {
 
-    @Bean
+    //@Bean
     public ItemService itemService() {
         return new ItemServiceV1(itemRepository());
     }
 
-    @Bean
+    //@Bean
     public ItemRepository itemRepository() {
         return new MemoryItemRepository();
     }

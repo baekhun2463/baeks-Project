@@ -1,7 +1,6 @@
 package baeksproject.project.login.repository;
 
 import baeksproject.project.login.domain.member.Member;
-import baeksproject.project.login.repository.MemberRespository;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @Transactional
 public class JpaMemberRepositoryV1 implements MemberRespository {
 
-    private final EntityManager em;
+    private static EntityManager em = null;
 
     public JpaMemberRepositoryV1(EntityManager em) {
         this.em = em;
@@ -26,12 +25,12 @@ public class JpaMemberRepositoryV1 implements MemberRespository {
         em.persist(member);
         return member;
     }
-
     @Override
-    public Optional<Member> findById(Long id) {
+    public static Optional<Member> findById(Long id) {
         Member member = em.find(Member.class, id);
         return Optional.ofNullable(member);
     }
+
 
     @Override
     public Optional<Member> findByLoginId(String email) {

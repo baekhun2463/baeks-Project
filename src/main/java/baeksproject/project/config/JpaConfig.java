@@ -1,5 +1,9 @@
-package baeksproject.project.login.config;
+package baeksproject.project.config;
 
+import baeksproject.project.item.repository.ItemRepository;
+import baeksproject.project.item.repository.JpaItemRepositoryV1;
+import baeksproject.project.item.service.ItemService;
+import baeksproject.project.item.service.ItemServiceV1;
 import baeksproject.project.login.repository.JpaMemberRepositoryV1;
 import baeksproject.project.login.repository.MemberRespository;
 import baeksproject.project.login.service.login.SignupService;
@@ -26,5 +30,14 @@ public class JpaConfig {
     @Bean
     public MemberRespository memberRespository() {
         return new JpaMemberRepositoryV1(em);
+    }
+
+    @Bean
+    public ItemService itemService() {
+        return new ItemServiceV1(itemRepository());
+    }
+    @Bean
+    public ItemRepository itemRepository() {
+        return new JpaItemRepositoryV1(em);
     }
 }
