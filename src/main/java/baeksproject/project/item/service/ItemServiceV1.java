@@ -8,6 +8,7 @@ import baeksproject.project.login.domain.member.Member;
 import baeksproject.project.login.repository.JpaMemberRepositoryV1;
 import baeksproject.project.login.repository.MemberRespository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ItemServiceV1 implements ItemService{
 
     private final ItemRepository itemRepository;
@@ -24,6 +26,7 @@ public class ItemServiceV1 implements ItemService{
 
     public Item saveItemWithMember(Long memberId, Item item) {
         Member member = memberRespository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
+        log.info("member={}", member);
         item.setMember(member);
         return itemRepository.save(item);
     }

@@ -26,17 +26,21 @@ public class JpaItemRepositoryV1 implements ItemRepository{
 
     @Override
     public Item save(Item item) {
-        if (item.getId() == null) {
-            em.persist(item);
-        } else {
-            em.merge(item);
-        }
+//        if (item.getId() == null) {
+//            em.persist(item);
+//        } else {
+//            em.merge(item);
+//        }
+//        return item;
+        em.persist(item);
+        log.info("item={}", item);
         return item;
     }
 
     @Override
     public Item saveItemWithMember(Long memberId, Item item) {
         Member member = em.find(Member.class, memberId);
+        log.info("member={}, memberId={}", member, memberId);
         if (member == null) {
             throw new IllegalStateException("Member not found");
         }

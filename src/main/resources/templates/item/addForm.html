@@ -24,6 +24,9 @@
             <input type="text" id="itemName" name="itemName" class="form-control" placeholder="이름을 입력하세요">
         </div>
         <div>
+            <input type="hidden" name="memberId" th:value="${memberId}">
+        </div>
+        <div>
             <label for="price">가격</label>
             <input type="text" id="price" name="price" class="form-control" placeholder="가격을 입력하세요">
         </div>

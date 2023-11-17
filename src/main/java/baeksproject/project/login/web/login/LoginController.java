@@ -28,7 +28,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginV4(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
+    public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
                           @RequestParam(defaultValue = "/") String redirectURL,
                           HttpServletRequest request) {
 
@@ -47,6 +47,7 @@ public class LoginController {
         //세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성
         HttpSession session = request.getSession();
         //세션에 로그인 회원 정보 보관
+        session.setAttribute("memberId", loginMember.getId());
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
         return "redirect:" + redirectURL;

@@ -4,7 +4,10 @@ import baeksproject.project.item.domain.Item;
 import baeksproject.project.item.repository.ItemSearchCond;
 import baeksproject.project.item.repository.ItemUpdateDto;
 import baeksproject.project.item.service.ItemService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/items")
 @RequiredArgsConstructor
+@Slf4j
 public class ItemController {
 
     private final ItemService itemService;
@@ -34,7 +38,14 @@ public class ItemController {
     }
 
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Long memberId = (Long) session.getAttribute("memberId");
+            if (memberId != null) {
+                model.addAttribute("memberId", memberId);
+            }
+        }
         return "item/addForm";
     }
 
