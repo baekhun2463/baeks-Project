@@ -26,12 +26,6 @@ public class JpaItemRepositoryV1 implements ItemRepository{
 
     @Override
     public Item save(Item item) {
-//        if (item.getId() == null) {
-//            em.persist(item);
-//        } else {
-//            em.merge(item);
-//        }
-//        return item;
         em.persist(item);
         log.info("item={}", item);
         return item;

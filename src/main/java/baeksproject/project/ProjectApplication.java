@@ -1,13 +1,13 @@
 package baeksproject.project;
 
-import baeksproject.project.config.MemoryConfig;
 import baeksproject.project.config.JpaConfig;
+import baeksproject.project.config.SpringDataJpaConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 
-@Import(JpaConfig.class)
+@Import(SpringDataJpaConfig.class)
 @SpringBootApplication
 public class ProjectApplication {
 

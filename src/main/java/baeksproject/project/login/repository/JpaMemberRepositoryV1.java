@@ -33,30 +33,14 @@ public class JpaMemberRepositoryV1 implements MemberRespository {
     }
 
 
-
     @Override
-    public Optional<Member> findByLoginId(String email) {
+    public Optional<Member> findByEmail(String email) {
         List<Member> result = em.createQuery("select m from Member m where m.email = :email", Member.class)
                 .setParameter("email", email)
                 .getResultList();
         return result.stream().findFirst();
     }
 
-
-    @Override
-    public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class)
-                .getResultList();
-    }
-
-
-    @Override
-    public void updateMember(Long id, Member updateParam) {
-        Member findMember = em.find(Member.class, id);
-        findMember.setEmail(updateParam.getEmail());
-        findMember.setPassword(updateParam.getPassword());
-        findMember.setName(updateParam.getName());
-    }
 
     @Override
     public void editPassword(Long id, String password) {
