@@ -1,13 +1,14 @@
 package baeksproject.project;
 
 import baeksproject.project.config.JpaConfig;
+import baeksproject.project.config.QuerydslConfig;
 import baeksproject.project.config.SpringDataJpaConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 
-@Import(SpringDataJpaConfig.class)
+@Import(QuerydslConfig.class)
 @SpringBootApplication
 public class ProjectApplication {
 

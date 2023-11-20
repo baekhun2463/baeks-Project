@@ -21,24 +21,24 @@ public class SpringDataJpaConfig {
     private final SpringDataJpaItemRepository springDataJpaItemRepository;
     private final SpringDataJpaMemberRepository springDataJpaMemberRepository;
 
-    @Bean
-    public ItemService itemService() {
-        return new ItemServiceV1(itemRepository(), memberRespository());
-    }
-
-    @Bean
-    public ItemRepository itemRepository() {
-        return new JpaItemRepositoryV2(springDataJpaItemRepository, memberRespository());
-    }
-
-    @Bean
-    public SignupService signupService() {
-        return new SignupServiceV1(memberRespository());
-    }
-
-    @Bean
-    public MemberRespository memberRespository() {
-        return new JpaMemberRepositoryV2(springDataJpaMemberRepository);
-    }
+//    @Bean
+//    public ItemService itemService() {
+//        return new ItemServiceV1(itemRepository(), memberRespository());
+//    }
+//
+//    @Bean
+//    public ItemRepository itemRepository() {
+//        return new JpaItemRepositoryV2(springDataJpaItemRepository, memberRespository());
+//    }
+//
+//    @Bean
+//    public SignupService signupService() {
+//        return new SignupServiceV1(memberRespository());
+//    }
+//
+//    @Bean
+//    public MemberRespository memberRespository() {
+//        return new JpaMemberRepositoryV2(springDataJpaMemberRepository);
+//    }
 
 }
