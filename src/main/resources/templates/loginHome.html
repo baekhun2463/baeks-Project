@@ -8,12 +8,22 @@
 <body>
 
 <div class="container" style="max-width: 600px">
-    <div class="py-5 text-center">
-        <!-- 이미지 추가 -->
-        <img th:src="@{/img/baeksProject.png}" alt="홈 화면 이미지" />
+
+    <div class="row">
+        <div class="col" style="padding: 10px;">
+            <img th:src="@{/img/baeksMarket.png}"
+                 alt="홈 화면 이미지"
+                 style="max-width: 100%;
+                 height: auto; margin: 10px;"
+                 th:onclick="|location.href='@{/items}'|"
+            />
+        </div>
+        <div class="col" style="padding: 10px;">
+            <img th:src="@{/img/baeksProject.png}" alt="홈 화면 이미지" style="max-width: 100%; height: auto; margin: 10px;"/>
+        </div>
     </div>
 
-    <h4 class="mb-3" th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>
+    <h4 class="mb-3" th:text="|안녕하세요. ${member.name}님|">로그인 사용자 이름</h4>
 
     <hr class="my-4">
 
@@ -21,7 +31,7 @@
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg" type="button"
                     th:onclick="|location.href='@{/items}'|">
-                상품 관리
+                회원정보
             </button>
         </div>
         <div class="col">
