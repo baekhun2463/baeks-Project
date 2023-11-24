@@ -91,4 +91,9 @@ public class JpaItemRepositoryV1 implements ItemRepository{
         }
         return query.getResultList();
     }
+
+    @Override
+    public List<Item> findByMemberId(Long memberId) {
+        return null;
+    }
 }

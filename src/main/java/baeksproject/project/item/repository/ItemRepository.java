@@ -1,11 +1,12 @@
 package baeksproject.project.item.repository;
 
 import baeksproject.project.item.domain.Item;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ItemRepository {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 
     public Item saveItemWithMember(Long memberId, Item item);
 
@@ -16,4 +17,6 @@ public interface ItemRepository {
     Optional<Item> findById(Long id);
 
     List<Item> findAll(ItemSearchCond cond);
+
+    List<Item> findByMemberId(Long memberId);
 }

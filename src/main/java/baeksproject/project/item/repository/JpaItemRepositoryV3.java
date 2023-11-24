@@ -71,6 +71,12 @@ public class JpaItemRepositoryV3 implements ItemRepository{
         return result;
     }
 
+    @Override
+    public List<Item> findByMemberId(Long memberId) {
+        return null;
+    }
+
+
     private BooleanExpression likeItemName(String itemName) {
         if(StringUtils.hasText(itemName)) {
             return item.itemName.like("%" + itemName + "%");

@@ -7,17 +7,20 @@ import baeksproject.project.login.repository.MemberRespository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class mypageService {
+public class mypageServiceV1 implements MypageService {
 
     private final MemberRespository memberRespository;
     private final ItemRepository itemRepository;
 
-    public Item saveItemWithMember(Long memberId, Item item) {
-        Member member = memberRespository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
-        item.setMember(member);
-        return itemRepository.save(item);
-    }
 
+    @Override
+    public List<Item> findMyItem(Long memberId) {
+        Member member = memberRespository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("Member not found"));
+        return itemRepository.findByMemberId(memberId);
+    }
 }
