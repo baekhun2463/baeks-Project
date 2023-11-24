@@ -5,6 +5,7 @@ import baeksproject.project.login.domain.member.Member;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -36,6 +37,7 @@ public class JpaItemRepositoryV3 implements ItemRepository{
         em.persist(item);
         return item;
     }
+
 
     @Override
     public Item save(Item item) {
@@ -71,9 +73,12 @@ public class JpaItemRepositoryV3 implements ItemRepository{
         return result;
     }
 
+
     @Override
     public List<Item> findByMemberId(Long memberId) {
-        return null;
+        return em.createQuery("SELECT i FROM Item i WHERE i.member.id = :memberId", Item.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
     }
 
 
