@@ -36,6 +36,7 @@ public class ItemServiceV1 implements ItemService {
         item.setMember(member);
 
         String imagePath = saveImageFile(imageFile);
+        log.info("imagePath={}", imagePath);
         item.setImagePath(imagePath);
         return itemRepository.save(item);
     }
@@ -77,7 +78,8 @@ public class ItemServiceV1 implements ItemService {
                 Path filePath = Paths.get(directoryPath+ "/" + storedFileName);
                 Files.copy(imageFile.getInputStream(), filePath);
 
-                return filePath.toString(); // 저장된 파일의 경로 반환
+                return "/images/" + storedFileName;
+
 
             } catch (IOException e) {
                 // 파일 저장 중 오류 발생 시 처리
