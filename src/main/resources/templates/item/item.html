@@ -21,6 +21,11 @@
     <!-- 추가 -->
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
+    <div class="text-center">
+        <img th:src="@{'/images/' + ${item.imagePath}}" alt="상품 이미지" class="item-image">
+    </div>
+
+
     <div>
         <label for="itemId">상품 ID</label>
         <input type="text" id="itemId" name="itemId" class="form-control" value="1" th:value="${item.id}" readonly>

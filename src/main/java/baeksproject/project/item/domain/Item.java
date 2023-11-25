@@ -2,6 +2,7 @@ package baeksproject.project.item.domain;
 
 import baeksproject.project.login.domain.member.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +20,18 @@ public class Item {
 
     private Integer quantity;
 
+    private String imagePath;
+
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Item(String itemName, Integer price, Integer quantity) {
+    public Item(String itemName, Integer price, Integer quantity, String imagePath) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
+        this.imagePath = imagePath;
     }
 
     public Item() {

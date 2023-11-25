@@ -30,9 +30,6 @@ public class JpaItemRepositoryV3 implements ItemRepository{
     @Override
     public Item saveItemWithMember(Long memberId, Item item) {
         Member member = em.find(Member.class, memberId);
-//        if (member == null) {
-//            throw new IllegalStateException("Member not found");
-//        }
         item.setMember(member);
         em.persist(item);
         return item;
@@ -51,6 +48,7 @@ public class JpaItemRepositoryV3 implements ItemRepository{
         findItem.setItemName(updateParam.getItemName());
         findItem.setPrice(updateParam.getPrice());
         findItem.setQuantity(updateParam.getQuantity());
+        findItem.setImagePath(updateParam.getImagePath());
     }
 
     @Override

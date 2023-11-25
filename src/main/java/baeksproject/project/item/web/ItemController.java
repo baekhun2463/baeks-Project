@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -50,8 +51,8 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item,@RequestParam Long memberId ,RedirectAttributes redirectAttributes) {
-        Item savedItem = itemService.saveItemWithMember(memberId, item);
+    public String addItem(@ModelAttribute Item item, @RequestParam Long memberId , @RequestParam("image") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemService.saveItemWithMember(memberId, item, imageFile);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/items/{itemId}";

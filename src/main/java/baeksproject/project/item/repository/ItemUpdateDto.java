@@ -15,11 +15,14 @@ public class ItemUpdateDto {
 
     private Integer quantity;
 
+    private String imagePath;
+
     public ItemUpdateDto() {}
 
-    public ItemUpdateDto(String itemName, Integer price, Integer quantity) {
+    public ItemUpdateDto(String itemName, Integer price, Integer quantity, String imagePath) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
+        this.imagePath = imagePath;
     }
 }
