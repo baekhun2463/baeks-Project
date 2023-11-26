@@ -42,7 +42,24 @@ public class ItemServiceV1 implements ItemService {
     }
 
     @Override
-    public void update(Long itemId, ItemUpdateDto updateParam) {
+    public void update(Long itemId, ItemUpdateDto updateParam, MultipartFile imageFile) {
+        Item existingItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+        // 새 이미지 파일이 제공되었는지 확인
+        if (!imageFile.isEmpty()) {
+            // 기존 이미지 파일이 있으면 삭제
+            if (existingItem.getImagePath() != null && !existingItem.getImagePath().isEmpty()) {
+                deleteImageFile(existingItem.getImagePath());
+            }
+
+            // 새 이미지 파일 저장 및 경로 업데이트
+            String imagePath = saveImageFile(imageFile);
+            updateParam.setImagePath(imagePath);
+        } else {
+            // 새 이미지 파일이 없으면, 기존 이미지 경로 유지
+            updateParam.setImagePath(existingItem.getImagePath());
+        }
+
         itemRepository.update(itemId, updateParam);
     }
 
@@ -87,5 +104,16 @@ public class ItemServiceV1 implements ItemService {
                 return null;
             }
     }
+
+    private void deleteImageFile(String imagePath) {
+        try {
+            // 이미지 파일 경로를 서버 내부 경로로 변환
+            Path fileToDeletePath = Paths.get("src/main/resources/static" + imagePath);
+            Files.deleteIfExists(fileToDeletePath);
+        } catch (IOException e) {
+            log.error("Error deleting image file: {}", imagePath, e);
+        }
+    }
+
 
 }

@@ -6,7 +6,9 @@ import baeksproject.project.login.web.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import java.util.List;
 
@@ -31,4 +33,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/", "/members/add", "/login", "/logout",
                         "/css/**", "/*.ico", "/error","/img/**","/images/**");
     }
+
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry
+//                .addResourceHandler("/images/**")
+//                .addResourceLocations("/home/baek/Downloads/project/src/main/resources/static/images/")
+//                .setCachePeriod(3600)
+//                .resourceChain(true)
+//                .addResolver(new PathResourceResolver());
+//    }
 }

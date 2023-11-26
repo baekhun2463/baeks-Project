@@ -67,8 +67,10 @@ public class ItemController {
 
 
     @PostMapping("/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute ItemUpdateDto updateParam) {
-        itemService.update(itemId, updateParam);
+    public String edit(@PathVariable Long itemId,
+                       @ModelAttribute ItemUpdateDto updateParam,
+                       @RequestParam("image") MultipartFile imageFile) {
+        itemService.update(itemId, updateParam, imageFile);
         return "redirect:/items/{itemId}";
     }
 }
