@@ -10,7 +10,8 @@ import java.util.Optional;
 
 public interface ItemService {
     public Item saveItemWithMember(Long memberId, Item item, MultipartFile imageFile);
-    void update(Long itemId, ItemUpdateDto updateParam, MultipartFile imageFile);
+    void update(Long itemId, ItemUpdateDto updateParam, MultipartFile imageFile, Long currentMemberId);
     Optional<Item> findById(Long id);
     List<Item> findItems(ItemSearchCond cond);
+    public void deleteItem(Long itemId, Long currentMemberId);
 }

@@ -8,13 +8,9 @@
         .container {
             max-width: 560px;
         }
-        /*.item-image {*/
-        /*    max-width: 100%;*/
-        /*    max-height: 200px;*/
-        /*    text-align: center;*/
-        /*    margin-top: 20px;*/
-        /*    margin-bottom: 20px;*/
-        /*}*/
+        .button-container .col {
+            margin: 0 10px; /* 양쪽 마진 적용 */
+        }
     </style>
 </head>
 <body>
@@ -53,21 +49,19 @@
 
     <hr class="my-4">
 
-    <div class="row">
-        <div class="col">
-            <button class="w-100 btn btn-primary btn-lg"
-                    onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${item.id})}'|"
-                    type="button">상품 수정</button>
+    <div class="row button-container">
+        <div th:if="${item.member.id == currentMemberId}" class="col">
+            <button class="w-100 btn btn-primary btn-lg" th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${item.id})}'|" type="button">상품 수정</button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg"
-                    onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/items}'|"
-                    type="button">목록으로</button>
+            <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/items}'|" type="button">목록으로</button>
+        </div>
+        <div th:if="${item.member.id == currentMemberId}" class="col">
+            <form th:action="@{/items/delete/{itemId}(itemId=${item.id})}" method="post">
+                <button type="submit" class="w-100 btn btn-danger btn-lg">삭제</button>
+            </form>
         </div>
     </div>
-
-</div> <!-- /container -->
+</div>
 </body>
 </html>

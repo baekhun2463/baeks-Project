@@ -19,4 +19,6 @@ public interface ItemRepository {
     List<Item> findAll(ItemSearchCond cond);
 
     List<Item> findByMemberId(Long memberId);
+
+    void deleteById(Long id);
 }

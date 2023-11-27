@@ -4,6 +4,7 @@ import baeksproject.project.login.domain.member.Member;
 import baeksproject.project.login.repository.JpaMemberRepositoryV1;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,15 @@ public class MemberController {
         if (bindingResult.hasErrors()) {
             return "members/addMemberForm";
         }
+        // 비밀번호 해시 생성기
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        // 원본 비밀번호
+        String originalPassword = member.getPassword();
+
+        // 비밀번호를 해시
+        String hashedPassword = passwordEncoder.encode(originalPassword);
+        member.setPassword(hashedPassword);
 
         jpaMemberRepositoryV1.save(member);
         return "redirect:/login";

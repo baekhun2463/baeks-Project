@@ -79,6 +79,16 @@ public class JpaItemRepositoryV3 implements ItemRepository{
                 .getResultList();
     }
 
+    @Override
+    public void deleteById(Long id) {
+        Item item = em.find(Item.class, id);
+        if (item != null) {
+            em.remove(item);
+        } else {
+            throw new RuntimeException("Item not found");
+        }
+    }
+
 
     private BooleanExpression likeItemName(String itemName) {
         if(StringUtils.hasText(itemName)) {

@@ -52,16 +52,15 @@ public class ItemServiceV1 implements ItemService {
     }
 
     @Override
-    public void update(Long itemId, ItemUpdateDto updateParam, MultipartFile imageFile) {
+    public void update(Long itemId, ItemUpdateDto updateParam, MultipartFile imageFile, Long currentMemberId) {
         Item existingItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Item not found"));
+        // 소유권 확인
+        if (!existingItem.getMember().getId().equals(currentMemberId)) {
+            throw new RuntimeException("Unauthorized access");
+        }
 
         if (!imageFile.isEmpty()) {
-            // 기존 이미지 파일이 있으면 삭제
-            if (existingItem.getImagePath() != null && !existingItem.getImagePath().isEmpty()) {
-                deleteImageFile(existingItem.getImagePath());
-            }
-
             // 새 이미지 파일 저장 및 Base64 인코딩과 MIME 타입 업데이트
             String imagePath = saveImageFile(imageFile);
             if (imagePath != null) {
@@ -90,6 +89,17 @@ public class ItemServiceV1 implements ItemService {
         return itemRepository.findAll(cond);
     }
 
+    public void deleteItem(Long itemId, Long currentMemberId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+
+        if (!item.getMember().getId().equals(currentMemberId)) {
+            throw new RuntimeException("Unauthorized access");
+        }
+
+        itemRepository.deleteById(item.getId());
+    }
+
     private String saveImageFile(MultipartFile imageFile) {
         if (imageFile.isEmpty()) {
             return null;
@@ -110,16 +120,6 @@ public class ItemServiceV1 implements ItemService {
         } catch (IOException e) {
             log.error("Error processing image file: {}", e.getMessage(), e);
             return null;
-        }
-    }
-
-    private void deleteImageFile(String imagePath) {
-        try {
-            // 이미지 파일 경로를 서버 내부 경로로 변환
-            Path fileToDeletePath = Paths.get("src/main/resources/static" + imagePath);
-            Files.deleteIfExists(fileToDeletePath);
-        } catch (IOException e) {
-            log.error("Error deleting image file: {}", imagePath, e);
         }
     }
 

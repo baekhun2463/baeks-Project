@@ -4,6 +4,8 @@ import baeksproject.project.login.repository.JpaMemberRepositoryV1;
 import baeksproject.project.login.domain.member.Member;
 import baeksproject.project.login.repository.JpaMemberRepositoryV2;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,13 +13,11 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     private final JpaMemberRepositoryV2 jpaMemberRepositoryV2;
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    /**
-     * @return null 로그인 실패
-     */
-    public Member login(String email, String password) {
+    public Member login(String email, String Password) {
         return jpaMemberRepositoryV2.findByEmail(email)
-                .filter(m -> m.getPassword().equals(password))
+                .filter(m -> passwordEncoder.matches(Password, m.getPassword()))
                 .orElse(null);
     }
 }
