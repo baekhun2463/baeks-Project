@@ -22,16 +22,19 @@ public class Item {
 
     private String imagePath;
 
+    private String mimeType;
+
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Item(String itemName, Integer price, Integer quantity, String imagePath) {
+    public Item(String itemName, Integer price, Integer quantity, String imagePath, String mimeType) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
         this.imagePath = imagePath;
+        this.mimeType = mimeType;
     }
 
     public Item() {

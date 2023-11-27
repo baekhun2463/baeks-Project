@@ -29,7 +29,7 @@
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
 
     <div>
-        <img th:src="@{${item.imagePath}}" alt="상품 이미지" class="item-image mx-auto d-block img-fluid mt-3 mb-3" style="max-width: 500px; height: auto;">
+        <img th:src="${'data:' + item.mimeType + ';base64,' + item.imagePath}" alt="상품 이미지" ...>
     </div>
 
 

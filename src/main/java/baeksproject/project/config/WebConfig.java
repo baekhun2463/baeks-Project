@@ -34,13 +34,13 @@ public class WebConfig implements WebMvcConfigurer {
                         "/css/**", "/*.ico", "/error","/img/**","/images/**");
     }
 
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry
-//                .addResourceHandler("/images/**")
-//                .addResourceLocations("/home/baek/Downloads/project/src/main/resources/static/images/")
-//                .setCachePeriod(3600)
-//                .resourceChain(true)
-//                .addResolver(new PathResourceResolver());
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/images/**")
+                .addResourceLocations("file:/home/baek/Downloads/project/src/main/resources/static/images/")
+                .setCachePeriod(3600)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
+    }
 }

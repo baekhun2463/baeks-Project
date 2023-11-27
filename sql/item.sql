@@ -5,6 +5,7 @@ CREATE TABLE Item (
     member_id BIGINT NOT NULL,
     price INT NOT NULL,
     quantity INT NOT NULL,
-    image_path VARCHAR(255),
+    image_path TEXT,
+    mime_type VARCHAR(255),
     FOREIGN KEY (member_id) REFERENCES Member(id)
 );

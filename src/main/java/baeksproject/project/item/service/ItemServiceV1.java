@@ -13,11 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +41,13 @@ public class ItemServiceV1 implements ItemService {
         item.setMember(member);
 
         String imagePath = saveImageFile(imageFile);
-        log.info("imagePath={}", imagePath);
-        item.setImagePath(imagePath);
+        if (imagePath != null) {
+            String mimeType = determineMimeType(imagePath);
+            String base64EncodedImage = encodeImageToBase64(imagePath);
+
+            item.setImagePath(base64EncodedImage);
+            item.setMimeType(mimeType); // MIME 타입 저장
+        }
         return itemRepository.save(item);
     }
 
@@ -45,19 +55,26 @@ public class ItemServiceV1 implements ItemService {
     public void update(Long itemId, ItemUpdateDto updateParam, MultipartFile imageFile) {
         Item existingItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Item not found"));
-        // 새 이미지 파일이 제공되었는지 확인
+
         if (!imageFile.isEmpty()) {
             // 기존 이미지 파일이 있으면 삭제
             if (existingItem.getImagePath() != null && !existingItem.getImagePath().isEmpty()) {
                 deleteImageFile(existingItem.getImagePath());
             }
 
-            // 새 이미지 파일 저장 및 경로 업데이트
+            // 새 이미지 파일 저장 및 Base64 인코딩과 MIME 타입 업데이트
             String imagePath = saveImageFile(imageFile);
-            updateParam.setImagePath(imagePath);
+            if (imagePath != null) {
+                String mimeType = determineMimeType(imagePath);
+                String base64EncodedImage = encodeImageToBase64(imagePath);
+
+                updateParam.setImagePath(base64EncodedImage);
+                updateParam.setMimeType(mimeType); // 새로운 MIME 타입 설정
+            }
         } else {
-            // 새 이미지 파일이 없으면, 기존 이미지 경로 유지
+            // 새 이미지 파일이 없으면, 기존 이미지 정보 유지
             updateParam.setImagePath(existingItem.getImagePath());
+            updateParam.setMimeType(existingItem.getMimeType()); // 기존 MIME 타입 유지
         }
 
         itemRepository.update(itemId, updateParam);
@@ -74,35 +91,26 @@ public class ItemServiceV1 implements ItemService {
     }
 
     private String saveImageFile(MultipartFile imageFile) {
-            if (imageFile.isEmpty()) {
-                // 파일이 없는 경우, 적절한 처리를 합니다.
-                return null;
+        if (imageFile.isEmpty()) {
+            return null;
+        }
+
+        try {
+            String directoryPath = "/home/baek/Downloads/project/src/main/resources/static/images";
+            File directory = new File(directoryPath);
+            if (!directory.exists()) {
+                directory.mkdirs();
             }
 
-            try {
-                // 저장할 디렉토리 경로
-                String directoryPath = "src/main/resources/static/images";
-                File directory = new File(directoryPath);
-                if (!directory.exists()) {
-                    directory.mkdirs(); // 디렉토리가 없으면 생성
-                }
+            String originalFilename = imageFile.getOriginalFilename();
+            String storedFileName = System.currentTimeMillis() + "_" + originalFilename;
 
-                // 파일 이름 생성 (예: 원본 파일 이름, 혹은 UUID를 사용하여 고유한 이름 생성)
-                String originalFilename = imageFile.getOriginalFilename();
-                String storedFileName = System.currentTimeMillis() + "_" + originalFilename;
-
-                // 파일 저장 경로
-                Path filePath = Paths.get(directoryPath+ "/" + storedFileName);
-                Files.copy(imageFile.getInputStream(), filePath);
-
-                return "/images/" + storedFileName;
-
-
-            } catch (IOException e) {
-                // 파일 저장 중 오류 발생 시 처리
-                e.printStackTrace();
-                return null;
-            }
+            // 여기에서 이미지 크기 조정 및 저장
+            return resizeAndSaveImage(imageFile, directoryPath, storedFileName);
+        } catch (IOException e) {
+            log.error("Error processing image file: {}", e.getMessage(), e);
+            return null;
+        }
     }
 
     private void deleteImageFile(String imagePath) {
@@ -113,6 +121,49 @@ public class ItemServiceV1 implements ItemService {
         } catch (IOException e) {
             log.error("Error deleting image file: {}", imagePath, e);
         }
+    }
+
+    private String encodeImageToBase64(String imagePath) {
+        try {
+            Path path = Paths.get(imagePath);
+            byte[] imageBytes = Files.readAllBytes(path);
+            return Base64.getEncoder().encodeToString(imageBytes);
+        } catch (IOException e) {
+            log.error("Error encoding image to Base64: {}", imagePath, e);
+            return null;
+        }
+    }
+
+    private String determineMimeType(String imagePath) {
+        try {
+            Path path = Paths.get(imagePath);
+            return Files.probeContentType(path);
+        } catch (IOException e) {
+            log.error("Error determining MIME type: {}", imagePath, e);
+            return null;
+        }
+    }
+
+    /**
+     * base64 인코딩 하기 전 사이즈를 줄이는 함수 (사이즈가 크면 타임리프에서 출력 X)
+     */
+    private String resizeAndSaveImage(MultipartFile imageFile, String directoryPath, String storedFileName) throws IOException {
+        // 이미지 파일 읽기
+        BufferedImage originalImage = ImageIO.read(imageFile.getInputStream());
+
+        // 이미지 크기 조정 (예: 너비 500, 높이 500)
+        int targetWidth = 500;
+        int targetHeight = 500;
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+
+        // 조정된 이미지 저장
+        Path filePath = Paths.get(directoryPath, storedFileName);
+        ImageIO.write(resizedImage, "jpg", filePath.toFile()); // "jpg"는 이미지 형식에 따라 변경
+
+        return filePath.toString();
     }
 
 
