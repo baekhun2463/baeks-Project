@@ -8,6 +8,10 @@ import baeksproject.project.login.domain.member.Member;
 import baeksproject.project.login.repository.MemberRespository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +36,10 @@ public class ItemServiceV1 implements ItemService {
     private final ItemRepository itemRepository;
     private final MemberRespository memberRespository;
 
+    public Page<Item> findItems(ItemSearchCond itemSearch, int page, int size) {
+        // 검색 조건과 페이지 정보를 사용하여 아이템 조회
+        return itemRepository.findPaginatedItems(itemSearch, page, size);
+    }
 
     public Item saveItemWithMember(Long memberId, Item item, MultipartFile imageFile) {
         Member member = memberRespository.findById(memberId)

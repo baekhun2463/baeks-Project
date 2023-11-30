@@ -1,6 +1,5 @@
 package baeksproject.project.config;
 
-import baeksproject.project.item.repository.SpringDataJpaItemRepository;
 import baeksproject.project.login.repository.SpringDataJpaMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class SpringDataJpaConfig {
-    private final SpringDataJpaItemRepository springDataJpaItemRepository;
     private final SpringDataJpaMemberRepository springDataJpaMemberRepository;
 
 //    @Bean

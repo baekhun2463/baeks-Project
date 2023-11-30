@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +26,16 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public String items(@ModelAttribute("itemSearch") ItemSearchCond itemSearch, Model model) {
-        List<Item> items = itemService.findItems(itemSearch);
-        model.addAttribute("items", items);
+    public String items(@ModelAttribute("itemSearch") ItemSearchCond itemSearch,
+                        @RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value = "size", defaultValue = "5") int size,
+                        Model model) {
+        // 페이징 처리된 아이템 목록 가져오기
+        Page<Item> itemPage = itemService.findItems(itemSearch, page, size);
+
+        model.addAttribute("items", itemPage.getContent()); // 페이지에 해당하는 아이템 목록
+        model.addAttribute("page", itemPage); // 페이지 정보 (Page 객체)
+
         return "item/items";
     }
 
