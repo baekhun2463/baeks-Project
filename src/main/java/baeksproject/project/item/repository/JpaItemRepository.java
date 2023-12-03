@@ -2,31 +2,28 @@ package baeksproject.project.item.repository;
 
 import baeksproject.project.item.domain.Item;
 import baeksproject.project.login.domain.member.Member;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.data.domain.*;
-import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static baeksproject.project.item.domain.QItem.item;
 
 @Repository
 @Transactional
-public class JpaItemRepositoryV3 implements ItemRepository{
+public class JpaItemRepository implements ItemRepository{
 
     private final EntityManager em;
     private final JPAQueryFactory query;
 
-    public JpaItemRepositoryV3(EntityManager em) {
+    public JpaItemRepository(EntityManager em) {
         this.em = em;
         this.query = new JPAQueryFactory(em);
     }

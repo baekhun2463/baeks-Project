@@ -6,6 +6,7 @@ import baeksproject.project.item.repository.ItemUpdateDto;
 import baeksproject.project.item.service.ItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/items")
@@ -65,8 +66,11 @@ public class ItemController {
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, @RequestParam Long memberId , @RequestParam("image") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
+    public String addItem(@Valid @ModelAttribute Item item, @RequestParam Long memberId , @RequestParam("image") MultipartFile imageFile, RedirectAttributes redirectAttributes) {
+
         Item savedItem = itemService.saveItemWithMember(memberId, item, imageFile);
+
+
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/items/{itemId}";

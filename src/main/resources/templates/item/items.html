@@ -8,10 +8,11 @@
 
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
-        <h2 th:text="page.items">상품 목록</h2>
+        <h2 th:text="#{page.items}">상품 목록</h2>
     </div>
 
     <form th:object="${itemSearch}" method="get" class="form-inline">
+
         <div class="row">
             <div class="col">
                 <input type="text" th:field="*{itemName}" class="form-control" placeholder="상품명"/>
@@ -21,6 +22,11 @@
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-secondary mb-2">검색</button>
+            </div>
+            <div class="col">
+                <button onclick="location.href='mypage.html'"
+                        th:onclick="|location.href='@{/mypage}'|"
+                        type="button" class="btn btn-secondary mb-2">회원정보</button>
             </div>
             <div class="col">
                 <button class="btn btn-primary float-end"

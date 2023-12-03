@@ -17,7 +17,7 @@ public class Member implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotEmpty
     @Email
     private String email;
     @NotEmpty

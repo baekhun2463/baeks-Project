@@ -9,9 +9,6 @@ import baeksproject.project.login.repository.MemberRespository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class ItemServiceV1 implements ItemService {
+public class ItemServiceV implements ItemService {
 
     private final ItemRepository itemRepository;
     private final MemberRespository memberRespository;

@@ -22,7 +22,22 @@
         <h2 th:text="|${member.name}님|"></h2>
     </div>
 
-    <h4 class="mb-3">내가 올린 물건</h4>
+    <div class="row">
+        <div class="col">
+            <h4 class="mb-3">내가 올린 물건</h4>
+        </div>
+        <div class="col">
+            <button th:onclick="|location.href='@{/}'|"
+                    type="button" class="btn btn-secondary mb-2">홈으로</button>
+        </div>
+        <div class="col">
+            <form th:action="@{/logout}" method="post">
+                <button class="w-100 btn btn-dark btn-lg" onclick="location.href='items.html'" type="submit">
+                    로그아웃
+                </button>
+            </form>
+        </div>
+    </div>
 
     <hr class="my-4">
     <div>
