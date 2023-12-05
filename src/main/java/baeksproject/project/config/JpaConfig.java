@@ -7,7 +7,7 @@ import baeksproject.project.item.service.ItemServiceV;
 import baeksproject.project.login.repository.JpaMemberRepositoryV1;
 import baeksproject.project.login.repository.MemberRespository;
 import baeksproject.project.login.service.login.SignupService;
-import baeksproject.project.login.service.login.SignupServiceV1;
+import baeksproject.project.login.service.login.SignupServiceV;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ public class JpaConfig {
 
     @Bean
     public SignupService signupService() {
-        return new SignupServiceV1(memberRespository());
+        return new SignupServiceV(memberRespository());
     }
 
     @Bean

@@ -21,25 +21,31 @@ public class MemberController {
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") Member member) {
+        // 회원 가입 폼을 반환
         return "members/addMemberForm";
     }
 
     @PostMapping("/add")
     public String save(@Valid @ModelAttribute Member member, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            // 폼 검증 오류가 있을 경우, 회원 가입 폼으로 다시 리턴
             return "members/addMemberForm";
         }
+
         // 비밀번호 해시 생성기
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         // 원본 비밀번호
         String originalPassword = member.getPassword();
 
-        // 비밀번호를 해시
+        // 비밀번호를 해시하여 저장
         String hashedPassword = passwordEncoder.encode(originalPassword);
         member.setPassword(hashedPassword);
 
+        // 회원 정보 저장
         jpaMemberRepositoryV1.save(member);
+
+        // 회원 가입 후 로그인 페이지로 리다이렉트
         return "redirect:/login";
     }
 }
