@@ -118,12 +118,9 @@ public class ItemController {
         try {
             itemService.deleteItem(itemId, currentMemberId); // 아이템 삭제
         } catch (RuntimeException e) {
-            // 예외 처리, 에러 메시지 추가
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/items";
         }
 
-        redirectAttributes.addFlashAttribute("message", "Item deleted successfully."); // 삭제 성공 메시지 추가
         return "redirect:/items"; // 아이템 목록 페이지로 리다이렉트
     }
 }
