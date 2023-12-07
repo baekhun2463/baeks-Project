@@ -19,7 +19,11 @@
             />
         </div>
         <div class="col" style="padding: 10px;">
-            <img th:src="@{/img/baeksProject.png}" alt="홈 화면 이미지" style="max-width: 100%; height: auto; margin: 10px;"/>
+            <img th:src="@{/img/baeksProject.png}"
+                 alt="홈 화면 이미지"
+                 style="max-width: 100%; height: auto; margin: 10px;"
+                 th:onclick="|location.href='@{/posts}'|"
+            />
         </div>
     </div>
 
