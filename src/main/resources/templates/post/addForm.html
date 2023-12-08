@@ -48,11 +48,12 @@
 <body>
 <div class="container">
     <h1>게시물 추가</h1>
-    <form th:action="@{/posts/add}" method="post">
-        <input type="text" name="title" placeholder="제목" />
-        <textarea name="content" placeholder="내용"></textarea>
+    <form th:action="@{/posts/add}" th:object="${postForm}" method="post">
+        <input type="text" th:field="*{title}" placeholder="제목" />
+        <textarea th:field="*{content}" placeholder="내용"></textarea>
         <button type="submit">게시물 추가</button>
     </form>
 </div>
 </body>
 </html>
+
