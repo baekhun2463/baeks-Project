@@ -51,6 +51,9 @@
     <form th:action="@{/posts/add}" th:object="${postForm}" method="post">
         <input type="text" th:field="*{title}" placeholder="제목" />
         <textarea th:field="*{content}" placeholder="내용"></textarea>
+        <div>
+            <input type="hidden" name="memberId" th:value="${memberId}">
+        </div>
         <button type="submit">게시물 추가</button>
     </form>
 </div>

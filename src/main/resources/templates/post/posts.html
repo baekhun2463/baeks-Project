@@ -50,11 +50,52 @@
         a:hover {
             background-color: #45a049;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+        .pagination li a {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination li.active a {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .pagination li.disabled a {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .pagination li a:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>게시판</h1>
+    <form th:action="@{/posts}" method="get">
+        <input type="text" name="keyword" placeholder="검색어 입력" />
+        <button type="submit">검색</button>
+    </form>
+
+    <div class="member-info-button">
+        <a th:href="@{/mypage}" class="btn btn-info">회원정보</a>
+    </div>
+
     <table>
         <thead>
         <tr>
@@ -65,14 +106,35 @@
         </thead>
         <tbody>
         <tr th:each="post : ${posts}">
-            <td th:text="${post.title}">제목</td>
+            <td>
+                <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}">제목</a>
+            </td>
             <td th:text="${post.author}">작성자</td>
-            <td th:text="${#dates.format(post.createdDate, 'yyyy-MM-dd')}">작성일</td>
+            <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
+
         </tr>
         </tbody>
     </table>
 
     <!-- 여기에 페이징 처리 로직 추가 -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${page.first} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/posts(page=${page.number - 1}, size=${page.size}, keyword=${keyword})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, page.totalPages - 1)}" th:classappend="${pageNum == page.number} ? 'active' : ''">
+                <a class="page-link" th:href="@{/posts(page=${pageNum}, size=${page.size}, keyword=${keyword})}" th:text="${pageNum + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${page.last} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/posts(page=${page.number + 1}, size=${page.size}, keyword=${keyword})}" aria-label="Next">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
 
     <a th:href="@{/posts/add}">새 글 작성</a>
 
