@@ -10,10 +10,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -43,7 +45,8 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable Long itemId, Model model, HttpServletRequest request) {
         // 아이템 상세 조회
-        Item item = itemService.findById(itemId).get(); // 아이템 ID로 아이템 조회
+        Item item = itemService.findById(itemId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Item not found"));
+        // 아이템 ID로 아이템 조회
         model.addAttribute("item", item); // 모델에 아이템 추가
 
         HttpSession session = request.getSession(false); // 현재 세션 가져오기

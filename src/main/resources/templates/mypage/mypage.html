@@ -52,15 +52,77 @@
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
-                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원id</a>
-                </td>
+                <td><a href="item.html" th:href="@{/items/{itemId}(itemId=${item.id})}" th:text="${item.id}">회원id</a></td>
                 <td><a href="item.html" th:href="@{|/items/${item.id}|}" th:text="${item.itemName}">상품명</a></td>
                 <td th:text="${item.price}">10000</td>
                 <td th:text="${item.quantity}">10</td>
             </tr>
             </tbody>
         </table>
-    </div>
+
+        <!-- 페이지네이션 로직 -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item" th:classappend="${itemPage.first} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/mypage(itemPage=${itemPage.number - 1}, itemSize=${itemPage.size}, postPage=${postPage.number}, postSize=${postPage.size})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, itemPage.totalPages - 1)}" th:classappend="${pageNum == itemPage.number} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/mypage(itemPage=${pageNum}, itemSize=${itemPage.size}, postPage=${postPage.number}, postSize=${postPage.size})}" th:text="${pageNum + 1}"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item" th:classappend="${itemPage.last} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/mypage(itemPage=${itemPage.number + 1}, itemSize=${itemPage.size}, postPage=${postPage.number}, postSize=${postPage.size})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <hr class="my-4">
+
+
+    <div>
+        <h4 class="mb-3">내가 올린 게시글</h4>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>제목</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.id}"></td>
+                <td><a th:href="@{/posts/{postId}(postId=${post.id})}" th:text="${post.title}"></a></td>
+                <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item" th:classappend="${postPage.first} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/mypage(postPage=${postPage.number - 1}, postSize=${postPage.size}, itemPage=${itemPage.number}, itemSize=${itemPage.size})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(0, postPage.totalPages - 1)}" th:classappend="${pageNum == postPage.number} ? 'active' : ''">
+                    <a class="page-link" th:href="@{/mypage(postPage=${pageNum}, postSize=${postPage.size}, itemPage=${itemPage.number}, itemSize=${itemPage.size})}" th:text="${pageNum + 1}"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item" th:classappend="${postPage.last} ? 'disabled' : ''">
+                    <a class="page-link" th:href="@{/mypage(postPage=${postPage.number + 1}, postSize=${postPage.size}, itemPage=${itemPage.number}, itemSize=${itemPage.size})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
 </div> <!-- /container -->
 </body>

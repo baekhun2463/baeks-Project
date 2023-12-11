@@ -128,11 +128,26 @@ public class JpaItemRepository implements ItemRepository{
 
 
     @Override
-    public List<Item> findByMemberId(Long memberId) {
-        return em.createQuery("SELECT i FROM Item i WHERE i.member.id = :memberId", Item.class)
-                .setParameter("memberId", memberId)
-                .getResultList();
+    public Page<Item> findByMemberId(Long memberId, Pageable pageable) {
+        // 쿼리를 작성하여 사용자가 올린 아이템을 조회
+        Query query = em.createQuery("SELECT i FROM Item i WHERE i.member.id = :memberId", Item.class);
+        query.setParameter("memberId", memberId);
+
+        // 페이지네이션 적용
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<Item> items = query.getResultList();
+
+        // 전체 아이템 수 조회
+        Query countQuery = em.createQuery("SELECT COUNT(i) FROM Item i WHERE i.member.id = :memberId");
+        countQuery.setParameter("memberId", memberId);
+        long totalItems = (long) countQuery.getSingleResult();
+
+        // Page 객체 생성 및 반환
+        return new PageImpl<>(items, pageable, totalItems);
     }
+
 
     @Override
     public void deleteById(Long id) {

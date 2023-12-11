@@ -55,9 +55,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public String post(@PathVariable Long id, Model model) {
+    public String post(@PathVariable Long id, Model model, HttpServletRequest request) {
         Post post = postService.findById(id);
         model.addAttribute("post", post);
+
+        HttpSession session = request.getSession(false); // 현재 세션 가져오기
+        if (session != null) {
+            Long memberId = (Long) session.getAttribute("memberId"); // 세션에서 회원 ID 가져오기
+            model.addAttribute("currentMemberId", memberId); // 모델에 회원 ID 추가
+        }
         return "post/post";
     }
 
@@ -65,6 +71,7 @@ public class PostController {
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("postForm") PostForm postForm, Model model, HttpServletRequest request) {
+
         HttpSession session = request.getSession(false); // 현재 세션 가져오기
         if (session != null) {
             Long memberId = (Long) session.getAttribute("memberId"); // 세션에서 회원 ID 가져오기

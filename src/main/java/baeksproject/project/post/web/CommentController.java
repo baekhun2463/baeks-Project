@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class CommentController {
     private final MemberRespository memberRespository;
 
     @PostMapping
-    public String addComment(@PathVariable Long postId, @ModelAttribute Comment comment, HttpServletRequest request) {
+    public String addComment(@PathVariable Long postId, @ModelAttribute Comment comment, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         Long memberId = (Long) session.getAttribute("memberId");
         Member member = memberRespository.findById(memberId).orElse(null);
@@ -32,7 +33,7 @@ public class CommentController {
             // 멤버가 존재하지 않는 경우의 처리 (예: 로그인 페이지로 리다이렉트)
             return "redirect:/login";
         }
-
+        model.addAttribute("currentMemberId", memberId); // 모델에 회원 ID 추가
         comment.setAuthor(member.getName());
         commentService.saveComment(postId, comment);
         return "redirect:/posts/" + postId;
