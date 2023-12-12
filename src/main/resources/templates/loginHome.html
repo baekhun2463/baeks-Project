@@ -4,26 +4,34 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 40px;
+        }
+        .link-row {
+            margin-bottom: 20px;
+        }
+        .link-row a {
+            display: block;
+            padding: 10px;
+            text-align: center;
+        }
+        .button-row {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 600px">
+<div class="container">
 
-    <div class="row">
-        <div class="col" style="padding: 10px;">
-            <img th:src="@{/img/baeksMarket.png}"
-                 alt="홈 화면 이미지"
-                 style="max-width: 100%;
-                 height: auto; margin: 10px;"
-                 th:onclick="|location.href='@{/items}'|"
-            />
+    <div class="row link-row">
+        <div class="col">
+            <a th:href="@{/items}">기본적인 쇼핑몰</a>
         </div>
-        <div class="col" style="padding: 10px;">
-            <img th:src="@{/img/baeksProject.png}"
-                 alt="홈 화면 이미지"
-                 style="max-width: 100%; height: auto; margin: 10px;"
-                 th:onclick="|location.href='@{/posts}'|"
-            />
+        <div class="col">
+            <a th:href="@{/posts}">기본적인 게시판</a>
         </div>
     </div>
 
@@ -31,7 +39,7 @@
 
     <hr class="my-4">
 
-    <div class="row">
+    <div class="row button-row">
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg" type="button"
                     th:onclick="|location.href='@{/mypage}'|">
@@ -40,7 +48,7 @@
         </div>
         <div class="col">
             <form th:action="@{/logout}" method="post">
-                <button class="w-100 btn btn-dark btn-lg" onclick="location.href='items.html'" type="submit">
+                <button class="w-100 btn btn-dark btn-lg" type="submit">
                     로그아웃
                 </button>
             </form>

@@ -4,15 +4,33 @@
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 600px;
+            margin-top: 40px;
+        }
+        .home-image {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .home-image img {
+            max-width: 300px;
+            height: auto;
+        }
+        .button-row {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container" style="max-width: 600px">
-    <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-        <img alt="홈 화면 이미지" th:src="@{/img/baeksProject.png}" style="max-width: 300px; height: auto;"/>
+<div class="container">
+    <div class="home-image">
+        <img alt="홈 화면 이미지" th:src="@{/img/baeksProject.png}"/>
     </div>
 
-    <div class="row">
+    <div class="row button-row">
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg" type="button"
                     th:onclick="|location.href='@{/members/add}'|">
