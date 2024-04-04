@@ -7,4 +7,3 @@
 - 기간: 2023/11/05 ~ 2023/12/14
 - 김영한님의 인프런 자바 스프링 로드맵을 배운 것을 복습
 - 사용 기술 : Java, SpringBoot, thymeleaf, JPA, H2 Database
-- Github 링크
